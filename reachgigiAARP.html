@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gigi – Video for Everyone</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #E8B84B;
+    --warm: #F5EDD6;
+    --deep: #1A3A4A;
+    --mid: #2D6A7F;
+    --soft: #EAF4F8;
+    --text: #2C2C2C;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--soft);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(26, 58, 74, 0.95);
+    backdrop-filter: blur(8px);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--gold); letter-spacing: 1px; }
+  .logo span { color: #fff; }
+  nav a { color: rgba(255,255,255,0.8); text-decoration: none; margin-left: 2rem; font-size: 1rem; transition: color .2s; }
+  nav a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--deep) 0%, var(--mid) 60%, #4A9DB5 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(232,184,75,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.07) 0%, transparent 50%);
+  }
+  /* floating circles */
+  .bubble { position: absolute; border-radius: 50%; opacity: .12; animation: float 8s ease-in-out infinite; }
+  .b1 { width: 320px; height: 320px; background: var(--gold); top: -80px; right: -60px; animation-delay: 0s; }
+  .b2 { width: 200px; height: 200px; background: #fff; bottom: 60px; left: -50px; animation-delay: 2s; }
+  .b3 { width: 140px; height: 140px; background: var(--gold); bottom: 200px; right: 15%; animation-delay: 4s; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-24px)} }
+
+  .hero-eyebrow {
+    font-family: 'Lato', sans-serif; font-size: 1rem; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+    animation: fadeUp .8s ease both;
+  }
+
+  .banner-words {
+    display: flex; gap: 0; flex-wrap: wrap; justify-content: center; align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .banner-word {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.2rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: #fff;
+    padding: 0 0.3em;
+    opacity: 0;
+    animation: fadeUp .8s ease forwards;
+  }
+  .banner-word:nth-child(1) { animation-delay: .2s; }
+  .banner-word:nth-child(2) { color: var(--gold); animation-delay: .45s; }
+  .banner-word:nth-child(3) { animation-delay: .7s; }
+
+  .dot { color: var(--gold); }
+
+  .hero-sub {
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem); font-weight: 300;
+    color: rgba(255,255,255,0.82); max-width: 580px; line-height: 1.7;
+    margin-bottom: 3rem;
+    animation: fadeUp .8s .9s ease both;
+  }
+
+  .btn-download {
+    display: inline-block;
+    padding: 1.1rem 3rem;
+    background: var(--gold);
+    color: var(--deep);
+    font-family: 'Lato', sans-serif;
+    font-size: 1.15rem; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(232,184,75,0.45);
+    transition: transform .2s, box-shadow .2s;
+    animation: fadeUp .8s 1.1s ease both;
+  }
+  .btn-download:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(232,184,75,0.6); }
+
+  .hero-note { margin-top: 1rem; color: rgba(255,255,255,0.5); font-size: .9rem; animation: fadeUp .8s 1.3s ease both; }
+
+  /* ── COMING SOON PAGE ── */
+  #coming-soon {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: var(--deep);
+    flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 2rem;
+  }
+  #coming-soon.active { display: flex; }
+  .cs-icon { font-size: 5rem; margin-bottom: 1.5rem; animation: pulse 2s ease infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+  .cs-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(2.5rem,6vw,5rem);
+    color: #fff; margin-bottom: 1rem;
+  }
+  .cs-title span { color: var(--gold); }
+  .cs-sub { color: rgba(255,255,255,0.7); font-size: 1.2rem; max-width: 460px; line-height: 1.7; margin-bottom: 2.5rem; }
+  .cs-back {
+    padding: .9rem 2.4rem; border: 2px solid var(--gold); color: var(--gold);
+    background: transparent; border-radius: 50px; font-size: 1rem; font-weight: 700;
+    cursor: pointer; letter-spacing: 1px; transition: all .2s;
+  }
+  .cs-back:hover { background: var(--gold); color: var(--deep); }
+
+  /* ── FEATURES ── */
+  .features {
+    background: var(--warm);
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+  .section-label { font-size: .85rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--mid); margin-bottom: .8rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3rem); color: var(--deep); margin-bottom: 1rem; }
+  .section-desc { color: #666; font-size: 1.1rem; max-width: 500px; margin: 0 auto 3.5rem; line-height: 1.7; }
+
+  .cards { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; max-width: 1100px; margin: 0 auto; }
+  .card {
+    background: #fff; border-radius: 20px; padding: 2.5rem 2rem;
+    flex: 1 1 280px; max-width: 320px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.07);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+  .card-icon { font-size: 3rem; margin-bottom: 1.2rem; }
+  .card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--deep); margin-bottom: .7rem; }
+  .card p { color: #666; font-size: 1rem; line-height: 1.65; }
+
+  /* ── HOW IT WORKS ── */
+  .how {
+    background: var(--deep);
+    padding: 6rem 2rem;
+    text-align: center;
+    color: #fff;
+  }
+  .how .section-label { color: var(--gold); }
+  .how .section-title { color: #fff; }
+  .steps { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; max-width: 900px; margin: 0 auto; }
+  .step { flex: 1 1 220px; max-width: 260px; }
+  .step-num {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--gold); color: var(--deep);
+    font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem;
+  }
+  .step h4 { font-size: 1.15rem; font-weight: 700; margin-bottom: .5rem; }
+  .step p { font-size: .95rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: var(--soft); padding: 6rem 2rem; text-align: center; }
+  .testimonials .section-title { color: var(--deep); }
+  .testi-grid { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; max-width: 1000px; margin: 0 auto; }
+  .testi {
+    background: #fff; border-radius: 16px; padding: 2rem;
+    flex: 1 1 260px; max-width: 300px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    text-align: left;
+  }
+  .testi-quote { font-size: 1rem; color: #555; line-height: 1.7; margin-bottom: 1.2rem; font-style: italic; }
+  .testi-name { font-weight: 700; color: var(--deep); }
+  .testi-age { font-size: .85rem; color: #999; }
+  .stars { color: var(--gold); font-size: 1.1rem; margin-bottom: .8rem; }
+
+  /* ── CTA ── */
+  .cta {
+    background: linear-gradient(135deg, var(--mid), var(--deep));
+    text-align: center; padding: 5rem 2rem; color: #fff;
+  }
+  .cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3rem); margin-bottom: 1rem; }
+  .cta p { color: rgba(255,255,255,0.75); font-size: 1.1rem; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0E2530; color: rgba(255,255,255,0.5);
+    text-align: center; padding: 2rem; font-size: .9rem;
+  }
+  footer span { color: var(--gold); }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Gi<span>gi</span></div>
+
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
+
+  <p class="hero-eyebrow">The Video App Designed for Seniors</p>
+
+  <div class="banner-words">
+    <span class="banner-word">Connect<span class="dot">.</span></span>
+    <span class="banner-word">Assist<span class="dot">.</span></span>
+    <span class="banner-word">Entertain<span class="dot">.</span></span>
+  </div>
+
+  <p class="hero-sub">Gigi brings family closer, helps with daily living, and keeps you entertained — all in one simple, large-screen app built for seniors.</p>
+
+  <a href="#" class="btn-download" onclick="showCS(event)">⬇ Download Here</a>
+  <p class="hero-note">Available on iOS & Android &nbsp;·&nbsp; Free to try</p>
+</section>
+
+<!-- COMING SOON OVERLAY -->
+<div id="coming-soon">
+  <div class="cs-icon">🚀</div>
+  <h2 class="cs-title">Coming <span>Soon!</span></h2>
+  <p class="cs-sub">We're putting the finishing touches on Gigi. Be the first to know when we launch — something wonderful is on its way.</p>
+  <button class="cs-back" onclick="hideCS()">← Back to Home</button>
+</div>
+
+
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <p class="section-label">Simple as 1-2-3</p>
+  <h2 class="section-title" style="margin-bottom:3rem">Getting Started Is Easy</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>Download the App</h4>
+      <p>Available on any smartphone or tablet. Your family can even set it up for you.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>Add Your People</h4>
+      <p>Invite family with a simple link. They appear as big photo buttons on your screen.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>Tap & Enjoy</h4>
+      <p>Call, watch, and get help with just one tap. It really is that simple.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Ready to Stay Connected?</h2>
+  <p>Join thousands of seniors and families who are already on the waiting list. Be first in line.</p>
+  <a href="#" class="btn-download" onclick="showCS(event)">⬇ Download Here</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span>Gigi</span>. Designed with love for every generation.</p>
+</footer>
+
+<script>
+  function showCS(e) {
+    e.preventDefault();
+    document.getElementById('coming-soon').classList.add('active');
+  }
+  function hideCS() {
+    document.getElementById('coming-soon').classList.remove('active');
+  }
+</script>
+</body>
+</html>
